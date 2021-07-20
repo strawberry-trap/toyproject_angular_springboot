@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpInterceptor} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Employee} from "../class/employee";
+import {HttpinterceptorService} from "./interceptor/httpinterceptor.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import {Employee} from "../class/employee";
 export class EmployeeService {
 
   private baseURL: String = "http://localhost:8080/api/v1/";
+  private httpInterceptor:HttpInterceptor = new HttpinterceptorService();
 
   constructor(private httpclient: HttpClient) { }
 
