@@ -1,12 +1,10 @@
 package com.spring.toyproject_backend.v1.repository;
 
-import com.spring.toyproject_backend.v1.model.EmployeeEntity;
+import com.spring.toyproject_backend.v1.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
-
-
+public interface AuthRepository extends JpaRepository<UserEntity, Long> {
 
 }

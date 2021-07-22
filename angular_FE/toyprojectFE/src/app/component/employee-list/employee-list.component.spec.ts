@@ -22,4 +22,21 @@ describe('EmployeeListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // should expect data to have at least one record (fetched from database)
+  it('should fetch data from server when initiated', ()=> {
+    component.ngOnInit();
+    expect(component.employees.length).toBeGreaterThan(1);
+  });
+
+  // timer should execute and can be subscribed
+  it('should start timer when initiated', () => {
+    component.ngOnInit();
+
+    // basic assert and test
+    component.timer.subscribe((value)=>{
+      expect(value).toBeTruthy();
+    });
+
+  });
 });

@@ -13,7 +13,7 @@ export class EmployeeUpdateComponent implements OnInit {
   employee: Employee = new Employee();
   id: number = 0;
 
-  constructor(private employeeService:EmployeeService,
+  constructor(private employeeService: EmployeeService,
               private activatedRoute: ActivatedRoute,
               private router: Router) { }
 
@@ -21,11 +21,13 @@ export class EmployeeUpdateComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.params['id'];
     this.employeeService.getEmployeeById(this.id).subscribe( data => {
       this.employee = data;
+      console.log("update-employee data, before update : " + JSON.stringify(data));
     }, error => console.log(error));
   }
 
   onSubmit() {
     this.employeeService.updateEmployee(this.id, this.employee).subscribe(data => {
+      this.employee = data;
       this.goToEmployeeList();
     }, error => console.log(error));
   }

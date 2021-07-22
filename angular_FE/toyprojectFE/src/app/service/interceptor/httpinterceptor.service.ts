@@ -8,15 +8,13 @@ import {
   HttpResponse
 } from "@angular/common/http";
 import {Observable} from "rxjs";
-import {LoggerService} from "../logger/logger.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpinterceptorService implements HttpInterceptor{
 
-  constructor() {
-  }
+  constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -34,8 +32,7 @@ export class HttpinterceptorService implements HttpInterceptor{
     }
     // if body exists
     if (req.body){
-      const duplicate = req.clone({ body: req.body.set('property-name', 'value')} );
-      return next.handle(duplicate);
+      // do something
     }
     return next.handle(req);
   }
