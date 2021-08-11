@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,17 +37,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<UserEntity> createUser(UserEntity user) {
+    @Transactional
+    public UserEntity createUser(UserEntity user) {
 
-        userRepository.save(user);
+        Long createdUserId = userRepository.save(user).getId();
+        Optional<UserEntity> createdUser = getUserById(createdUserId);
 
-        // check successfully saved
-        Optional<UserEntity> createdUser = this.getUserById(user.getId());
         if (createdUser.isPresent()) {
-            return createdUser;
+            return createdUser.get();
         }
+        UserEntity notCreated = new UserEntity();
+        notCreated.setId((long)-1);
 
-        return createdUser;
+        return notCreated;
     }
 
     public UserEntity updateUser(Long id, UserEntity user) {
@@ -62,13 +65,22 @@ public class UserService {
 
             return newUser;
         }
+
+        logger.error("user not updated with id " + user.getId() + " and name : " + user.getFirstName() + " " + user.getLastName());
         UserEntity noResult = new UserEntity();
-        noResult.setId(-1);
+        noResult.setId((long)-1);
         return noResult;
     }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+
+        // check if successfully deleted
+        Optional<UserEntity> shouldBeDeleted = userRepository.findById(id);
+        if (shouldBeDeleted.isPresent()) {
+            logger.error("user not deleted with id : " + shouldBeDeleted.get().getId());
+        }
+
         return;
     }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Employee} from "../class/employee";
+import {Employee} from "../../class/employee";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,8 @@ export class EmployeeService {
   constructor(private httpclient: HttpClient) { }
 
   getEmployeeList(): Observable<Employee[]> {
+
+    console.log("employeeService getEmployeeList : " + this.httpclient.get<Employee[]>(`${this.baseURL}` + 'userList'));
     return this.httpclient.get<Employee[]>(`${this.baseURL}` + 'userList');
   }
 
@@ -21,7 +23,7 @@ export class EmployeeService {
   }
 
   getEmployeeById(id: number): Observable<Employee> {
-    return this.httpclient.get<Employee>(`${this.baseURL}` + `employee/${id}`);
+    return this.httpclient.get<Employee>(`${this.baseURL}` + `user/${id}`);
   }
 
   updateEmployee(id: number, employee: Employee): Observable<any> {

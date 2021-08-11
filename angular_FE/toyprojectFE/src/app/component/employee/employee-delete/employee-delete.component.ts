@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployeeService} from "../../service/employee.service";
+import {EmployeeService} from "../../../service/employee/employee.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Employee} from "../../class/employee";
+import {Employee} from "../../../class/employee";
 
 @Component({
   selector: 'app-employee-delete',

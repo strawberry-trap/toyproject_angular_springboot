@@ -1,15 +1,13 @@
 package com.spring.toyproject_backend.v1.controller;
 
-import com.spring.toyproject_backend.v1.exception.ResourceNotFoundException;
 import com.spring.toyproject_backend.v1.model.UserEntity;
-import com.spring.toyproject_backend.v1.repository.UserRepository;
 import com.spring.toyproject_backend.v1.service.UserService;
-import org.apache.catalina.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +17,7 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     // dependency injection with constructor
     public UserController(UserService userService){
@@ -26,18 +25,25 @@ public class UserController {
     }
 
     // get all
-    @GetMapping("/userList")
+    @GetMapping("userList")
     public ResponseEntity<List<UserEntity>> getUserList() {
 
         List<UserEntity> users = userService.getUserList();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Access-Control-Allow-Origin", "http://localhost:4200");
+
         if (users.size() == 0) {
+
+            logger.error("cannot get user list from database (or, possibly empty table)");
+            System.out.println("cannot get user list from database (or, possibly empty table)");
             return ResponseEntity.noContent().build(); // no data from server
         }
+
         return ResponseEntity.ok(users);
     }
 
     // get one
-    @GetMapping("employee/{id}")
+    @GetMapping("user/{id}")
     public ResponseEntity<UserEntity> getUser(@PathVariable Long id) {
 
         Optional<UserEntity> user = userService.getUserById(id);
@@ -49,15 +55,15 @@ public class UserController {
     }
 
     // create
-    @PostMapping("/createUser")
+    @PostMapping("createUser")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
 
-        Optional<UserEntity> createdUser = userService.createUser(user);
+        UserEntity createdUser = userService.createUser(user);
 
-        if( createdUser.isPresent() ){
-            return ResponseEntity.ok(createdUser.get());
-        }
-        return ResponseEntity.internalServerError().build();
+        if (createdUser.getId() == -1)
+            return ResponseEntity.internalServerError().build();
+
+        else return ResponseEntity.ok(createdUser);
     }
 
     // update

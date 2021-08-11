@@ -1,0 +1,27 @@
+{{ model | json }}
+
+<form (ngSubmit)="onSubmit()" #formVariable="ngForm">
+
+  <div class="form-group">
+    <label for="1"> input 1 </label>
+    <input type="text" class="form-control" id="1"
+           required
+           [(ngModel)]="model.first" name="first_attr">
+  </div>
+
+  <div class="form-group">
+    <label for="2"> input 2 </label>
+    <input type="text"  class="form-control" id="2"
+           [(ngModel)]="model.second" name="second_attr">
+  </div>
+
+  <div class="form-group">
+    <label for="3"> Simple Selector </label>
+    <select class="form-control"  id="3"
+            required
+            [(ngModel)]="model.power" name="power">
+      <option *ngFor="let o of options" [value]="o">{{o}}</option>
+    </select>
+  </div>
+
+</form>

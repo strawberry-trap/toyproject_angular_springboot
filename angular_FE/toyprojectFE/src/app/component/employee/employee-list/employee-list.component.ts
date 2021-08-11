@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Employee} from "../../class/employee";
-import {EmployeeService} from "../../service/employee.service";
+import {Employee} from "../../../class/employee";
+import {EmployeeService} from "../../../service/employee/employee.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {interval, Observable} from "rxjs";
 import {tap} from "rxjs/operators";
@@ -45,7 +45,11 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   private getEmployeeList() {
     this.employeeService.getEmployeeList().subscribe(data => {
       this.employees = data;
-    });
+    },error => {
+      console.log("getEmployeeList subscribing error, " + error);
+      }
+
+    );
   }
 
   public updateEmployee(id: number) {

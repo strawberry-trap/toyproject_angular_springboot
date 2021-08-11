@@ -19,7 +19,13 @@ export class HttpinterceptorService implements HttpInterceptor{
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (req) {
-      console.log('intercept request' + JSON.stringify(req));
+      console.log('HTTP Interceptor');
+      // console.log(JSON.stringify(req));
+      // req = req.clone({
+      //   headers: req.headers.set('Access-Control-Allow-Origin', 'http://localhost:8080')
+      // });
+      console.log("check header \"Access-Control-Allow-Origin\"");
+      console.log(JSON.stringify(req.headers.get('Access-Control-Allow-Origin')));
     }
 
     // post

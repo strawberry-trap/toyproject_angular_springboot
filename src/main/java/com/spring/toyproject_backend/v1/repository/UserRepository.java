@@ -10,15 +10,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    // get one user
-    Optional<UserEntity> findById(Long id);
-
-    // get all users
-    List<UserEntity> findAll();
-
-    // delete single user
-    void deleteById(Long id);
-
-    UserEntity save(UserEntity user);
 
 }
